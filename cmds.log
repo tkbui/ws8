@@ -1,0 +1,13 @@
+    1  awk -F $'\t' 'OFS="\t" {print $12, $14}' amazon_reviews_us_Books_v1_02.tsv > verify_and_review.txt
+    2  head -n 2 verify_and_review.txt 
+    3  head -n 1 verify_and_review.txt 
+    4  awk -F $'\t' '/Y/ {print $2}' verify_and_review.txt > verified.txt
+    5  awk -F $'\t' '/N/ {print $2}' verify_and_review.txt > unverified.txt
+    6  head -n 2 verified.txt
+    7  head -n 2 unverified.txt
+    8  tr " " "\n" < verified.txt > verified.words.txt
+    9  tr " " "\n" < unverified.txt > unverified.words.txt
+   10  sort verified.words.txt | uniq -c | sort -nr | head -n 10
+   11  sort verified.words.txt | uniq -c | sort -nr | head -n 11
+   12  sort unverified.words.txt | uniq -c | sort -nr | head -n 11
+   13  history > cmds.log

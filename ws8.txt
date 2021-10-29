@@ -1,0 +1,91 @@
+T.K. Bui | CS 185C | Worksheet 8, due 10/28/2021
+======================================================================================================================
+Script started on 2021-10-29 01:32:49+00:00 [TERM="screen" TTY="/dev/pts/1" COLUMNS="189" LINES="51"]
+
+----------------------------------------------------------------------------------------------------------------------
+1) Repeat worksheet #2 using awk to get the entire reviews that are verified or not. Use awk to get the entire text
+   of the verified and unverified reviews. Redirect the "verified" true reviews to a file "verified.txt". Then put the
+   unverified reviews in another file "unverified.txt" using redirection.
+
+bui@f6linuxA7:~$ awk -F $'\t' 'OFS="\t" {print $12, $14}' amazon_reviews_us_Books_v1_02.tsv > verify_and_review.txt
+
+bui@f6linuxA7:~$ head -n 2 verify_and_review.txt 
+verified_purchase	review_body
+N	this boook was a great one that you could learn from. it not only teaches the imponrtance of family and their values but it also deals with basic issues that teens and some kids even deal with.  this book is about 4 best friends who are for the first time in their lives spending their summer apart. one day they are all in one of the girls rooms and finds a pair of pants that were tucked away in her closet.  once all four  of them try them on they realize that there is really something special about these pants.  seeming as how all 4 girls are differnt shapes and sizes and somehow the pants fit all of them,  they realize that these pants were the start of something special.  immediatley following they decided to make up certian rules abut the pants such as you must write the best thing u did while wearing the pants over your summer on the right leg and also some silly things such as to \\"never pick yuor nose while wearing the pants.\\"  this book follows the girls throuh their summers in differnt places of the world and through all of the different obstacles that life takes them through. it can really teach you alot not only about what is going on around you but most imporntantly about yuorself.  i would give this book 4 stars and would reccommend it to anyone who seems the slihgtest bit interested.
+
+bui@f6linuxA7:~$ awk -F $'\t' '/Y/ {print $2}' verify_and_review.txt > verified.txt
+
+bui@f6linuxA7:~$ awk -F $'\t' '/N/ {print $2}' verify_and_review.txt > unverified.txt
+
+bui@f6linuxA7:~$ head -n 2 verified.txt
+Though she is honored to be Chicago Woman of the Year, Victoria Colby-Camp is more euphoric over the mental improvement that her son Jim has shown recently especially since he and Tasha North fell in love.  Jim was snatched almost twenty years ago when he was seven and turned into the killing Seth whose goal was to murder Victoria for abandoning him.  However, her elation would turn to despair if she knew Seth resurfaced and started to rape a pregnant Tasha.<br /><br />Former military strategist Daniel Marks is in town complements of the Colby Agency that wants to hire him.  Also in Chicago is Emily Hastings whose father a veteran homicide detective was murdered.  She finds letters linking her dad to Victoria, the woman's long ago murdered first husband James, and her dad's first partner Marelyn Rutland that confuses her.  Soon she will meet Daniel and they will be embroiled in the COLBY CONSPIRACY that goes back almost two decades ago.<br /><br />Though the subplots can become confusing at first, once the audience comprehends how this complex superb suspense thriller starts to come together, they will want more Colby Agency tales; (see FILES FROM THE COLBY AGENCY: THE BODYGUARD'S BABY PROTECTIVE CUSTODY).  The ensemble cast is solid as fans will feel with Victoria who has overcome so much tragedy, hope Jim \\"defeats\\" Seth with Tasha at his side, and root for Daniel and Emily to make it while wondering what really happened two decades ago.  A final twist marks a strong Webb of deceit tale that showcases a fine author on her A-game.<br /><br />Harriet Klausner
+When looking for &lt;a href=\\"[...]\\">lock picking books&lt;/a>, this one is very informative. It will give one great ideas on opening padlocks, but the language is very basic, no frills here. This is not a romance novel, it's how to open locks without keys, and that's it. You will learn what you need to here. But you should always seek out more knowledge.
+
+bui@f6linuxA7:~$ head -n 2 unverified.txt
+this boook was a great one that you could learn from. it not only teaches the imponrtance of family and their values but it also deals with basic issues that teens and some kids even deal with.  this book is about 4 best friends who are for the first time in their lives spending their summer apart. one day they are all in one of the girls rooms and finds a pair of pants that were tucked away in her closet.  once all four  of them try them on they realize that there is really something special about these pants.  seeming as how all 4 girls are differnt shapes and sizes and somehow the pants fit all of them,  they realize that these pants were the start of something special.  immediatley following they decided to make up certian rules abut the pants such as you must write the best thing u did while wearing the pants over your summer on the right leg and also some silly things such as to \\"never pick yuor nose while wearing the pants.\\"  this book follows the girls throuh their summers in differnt places of the world and through all of the different obstacles that life takes them through. it can really teach you alot not only about what is going on around you but most imporntantly about yuorself.  i would give this book 4 stars and would reccommend it to anyone who seems the slihgtest bit interested.
+If you are looking for something to stimulate your brain, this isn't it.  However, if you are just looking for a good laugh, you'll enjoy The Bad Girl's Guide.  It's funny and light, and definitely a good way to pass a little bit of time.
+
+EXPLANATION: At the end of the lecture 10/28/2021, Professor said it would be ok to retrieve just the 14th column
+(the review body column) rather than the entire review. I already retrieved the reviews with these awk commands
+that are slightly different to the ones he used in class, but basically I get the column that states if the review
+is verified or not (12th column) and the review body (14th column) and make sure that the columns are tab-separated.
+Then, based on if the verified column is Y or N, I separate the review bodies into verified.txt and unverified.txt.
+
+----------------------------------------------------------------------------------------------------------------------
+2) Find the 10 most frequent words in the review_body of the verified reviews, then find the 10 most frequent words
+   in the review_body of the unverified reviews. Note: If this is taking too long for the entire dataset, it is
+   sufficient to do it just for 100 reviews so you get an idea.
+
+bui@f6linuxA7:~$ tr " " "\n" < verified.txt > verified.words.txt
+
+bui@f6linuxA7:~$ tr " " "\n" < unverified.txt > unverified.words.txt
+
+bui@f6linuxA7:~$ sort verified.words.txt | uniq -c | sort -nr | head -n 10
+7683419 the
+5361468 
+4532454 and
+4519663 of
+4102094 to
+3739087 a
+2641445 is
+2397163 in
+2039963 I
+1852465 that
+
+bui@f6linuxA7:~$ sort verified.words.txt | uniq -c | sort -nr | head -n 11
+7683419 the
+5361468 
+4532454 and
+4519663 of
+4102094 to
+3739087 a
+2641445 is
+2397163 in
+2039963 I
+1852465 that
+1444457 this
+
+bui@f6linuxA7:~$ sort unverified.words.txt | uniq -c | sort -nr | head -n 11
+22180034 the
+15706364 
+13388703 and
+13075639 of
+11795809 to
+11012760 a
+7838675 is
+6818757 in
+6560582 I
+5228896 that
+4465995 this
+
+EXPLANATION: I use the tr commands to split up the reviews into all of the words, then use sort and uniq -c to get
+the count of all the words and get the top 10 words in verified.txt and unverified.txt. I got the first 11 lines
+from these commands to get the 10th most common word, assuming we don't want the blank space to count as one
+of them.
+
+======================================================================================================================
+bui@f6linuxA7:~$ history > cmds.log
+
+bui@f6linuxA7:~$ exit
+
+Script done on 2021-10-29 02:04:55+00:00 [COMMAND_EXIT_CODE="0"]
